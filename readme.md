@@ -41,7 +41,7 @@ python main.py --todo clear --gan_type gan --net_type cnn
 ```
 
 # Generation
-
+## CNN
 Name | Epoch 0 | Epoch 5 | Epoch 9
 :---: | :---: | :---: | :---: |
 GAN | <img src= 'figs/gan_cnn/fake_0.png' height='230px'> | <img src = 'figs/gan_cnn/fake_5.png' height='230px'> | <img src= 'figs/gan_cnn/fake_9.png' height='230px'>
@@ -49,6 +49,16 @@ WGAN | <img src= 'figs/wgan_cnn/fake_0.png' height='230px'> | <img src = 'figs/w
 WGAN-GP | <img src= 'figs/wgan_gp_cnn/fake_0.png' height='230px'> | <img src = 'figs/wgan_gp_cnn/fake_5.png' height='230px'> | <img src= 'figs/wgan_gp_cnn/fake_9.png' height='230px'>
 LSGAN |  <img src= 'figs/lsgan_cnn/fake_0.png' height='230px'> | <img src = 'figs/lsgan_cnn/fake_5.png' height='230px'> | <img src= 'figs/lsgan_cnn/fake_9.png' height='230px'>
 DRAGAN |  <img src= 'figs/dragan_cnn/fake_0.png' height='230px'> | <img src = 'figs/dragan_cnn/fake_5.png' height='230px'> | <img src= 'figs/dragan_cnn/fake_9.png' height='230px'>
+CGAN | <img src= 'figs/cgan_cnn/fake_0.png' height='230px'> | <img src = 'figs/cgan_cnn/fake_5.png' height='230px'> | <img src= 'figs/cgan_cnn/fake_9.png' height='230px'>
+## MLP
+Name | Epoch 0 | Epoch 10 | Epoch 19
+:---: | :---: | :---: | :---: |
+GAN | <img src= 'figs/gan_mlp/fake_0.png' height='230px'> | <img src = 'figs/gan_mlp/fake_10.png' height='230px'> | <img src= 'figs/gan_mlp/fake_19.png' height='230px'>
+WGAN | <img src= 'figs/wgan_mlp/fake_0.png' height='230px'> | <img src = 'figs/wgan_mlp/fake_10.png' height='230px'> | <img src= 'figs/wgan_mlp/fake_19.png' height='230px'>
+WGAN-GP | <img src= 'figs/wgan_gp_mlp/fake_0.png' height='230px'> | <img src = 'figs/wgan_gp_mlp/fake_10.png' height='230px'> | <img src= 'figs/wgan_gp_mlp/fake_19.png' height='230px'>
+LSGAN |  <img src= 'figs/lsgan_mlp/fake_0.png' height='230px'> | <img src = 'figs/lsgan_mlp/fake_10.png' height='230px'> | <img src= 'figs/lsgan_mlp/fake_19.png' height='230px'>
+DRAGAN |  <img src= 'figs/dragan_mlp/fake_0.png' height='230px'> | <img src = 'figs/dragan_mlp/fake_10.png' height='230px'> | <img src= 'figs/dragan_mlp/fake_19.png' height='230px'>
+CGAN | <img src= 'figs/cgan_mlp/fake_0.png' height='230px'> | <img src = 'figs/cgan_mlp/fake_10.png' height='230px'> | <img src= 'figs/cgan_mlp/fake_19.png' height='230px'>
 
 # Reference
 
