@@ -1,20 +1,18 @@
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
-
 # GAN collections in Tensorflow
 
 Tensorflow implemetation of various GANs on MNIST.
 
 # Generative Adversarial Networks (GANs) Papers
 
-|Name|Paper Link |
-|:--:|:--:|
-|GAN|[Arxiv](https://arxiv.org/abs/1406.2661)|
-|WGAN|[Arxiv](https://arxiv.org/abs/1701.07875) |
-|WGAN-GP|[Arxiv](https://arxiv.org/abs/1704.00028) |
-|LSGAN|[Arxiv](https://arxiv.org/abs/1611.04076)|
-|DRAGAN|[Arxiv](https://arxiv.org/abs/1705.07215)|
-|CGAN|[Arxiv](https://arxiv.org/abs/1411.1784)|
-|infoGAN|[Arxiv](https://arxiv.org/abs/1606.03657)|
+Name | Paper Link 
+:---: | :---: |
+GAN | [Arxiv](https://arxiv.org/abs/1406.2661)
+WGAN | [Arxiv](https://arxiv.org/abs/1701.07875)
+WGAN-GP|[Arxiv](https://arxiv.org/abs/1704.00028)
+LSGAN| [Arxiv](https://arxiv.org/abs/1611.04076)
+DRAGAN| [Arxiv](https://arxiv.org/abs/1705.07215)
+CGAN| [Arxiv](https://arxiv.org/abs/1411.1784)|
+infoGAN| [Arxiv](https://arxiv.org/abs/1606.03657)
 
 
 # Access to Data
@@ -41,6 +39,16 @@ Clean figs, checkpoints and logs of one model.
 ```shell
 python main.py --todo clear --gan_type gan --net_type cnn  
 ```
+
+# Generation
+
+Name | Epoch 0 | Epoch 5 | Epoch 9
+:---: | :---: | :---: | :---: |
+GAN | <img src= 'figs/gan_cnn/fake_0.png' height='230px'> | <img src = 'figs/gan_cnn/fake_5.png' height='230px'> | <img src= 'figs/gan_cnn/fake_9.png' height='230px'>
+WGAN | <img src= 'figs/wgan_cnn/fake_0.png' height='230px'> | <img src = 'figs/wgan_cnn/fake_5.png' height='230px'> | <img src= 'figs/wgan_cnn/fake_9.png' height='230px'>
+WGAN-GP | <img src= 'figs/wgan_gp_cnn/fake_0.png' height='230px'> | <img src = 'figs/wgan_gp_cnn/fake_5.png' height='230px'> | <img src= 'figs/wgan_gp_cnn/fake_9.png' height='230px'>
+LSGAN |  <img src= 'figs/lsgan_cnn/fake_0.png' height='230px'> | <img src = 'figs/lsgan_cnn/fake_5.png' height='230px'> | <img src= 'figs/lsgan_cnn/fake_9.png' height='230px'>
+DRAGAN |  <img src= 'figs/dragan_cnn/fake_0.png' height='230px'> | <img src = 'figs/dragan_cnn/fake_5.png' height='230px'> | <img src= 'figs/dragan_cnn/fake_9.png' height='230px'>
 
 # Reference
 
