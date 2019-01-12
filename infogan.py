@@ -6,7 +6,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import tensorflow as tf
 import numpy as np
-from utils import BasicTrainFramework
+from utils import BasicTrainFramework, one_hot_encode
 from datamanager import datamanager_mnist
 from discriminators import Discriminator_CNN, Discriminator_MLP
 from generators import Generator_CNN, Generator_MLP
@@ -97,7 +97,7 @@ class InfoGAN(BasicTrainFramework):
             self.D_solver = tf.train.RMSPropOptimizer(learning_rate=self.lr).minimize(self.D_loss, var_list=self.discriminator.vars)
             self.G_solver = tf.train.RMSPropOptimizer(learning_rate=5*self.lr).minimize(self.G_loss, var_list=self.generator.vars)
         
-        self.Q_solver = tf.train.AdamOptimizer(learning_rate=5*self.lr, beta1=self.optim_num).minimize(self.D_loss, var_list=self.classifier.vars + self.generator.vars + self.discriminator.vars)
+        self.Q_solver = tf.train.AdamOptimizer(learning_rate=5*self.lr, beta1=self.optim_num).minimize(self.Q_loss, var_list=self.classifier.vars + self.generator.vars + self.discriminator.vars)
 
     def build_summary(self):
         D_sum = tf.summary.scalar("D_loss", self.D_loss)
@@ -108,41 +108,44 @@ class InfoGAN(BasicTrainFramework):
         self.summary = tf.summary.merge([D_sum, D_sum_real, D_sum_fake, G_sum, Q_sum])
     
     def sample(self, epoch):
-        def convert_label(i):
-            return chr(i + 48)
-        data = self.sample_data
-        test_codes = np.concatenate((data["labels"], np.zeros([self.batch_size, self.len_continuous_code])), axis=1)
+        # batch_size=64
+        labels = np.repeat(np.arange(10).reshape((10,1)), 10)
+        labels = one_hot_encode(labels, 10) # [100, 10]
+        test_codes = np.concatenate([labels, np.tile(np.linspace(-1, 1, 10), 10)[:, None], np.zeros((100, 1))], 1)
+        test_codes = np.concatenate([test_codes, test_codes], 0)
+
         feed_dict = {
-            self.source: data["data"],
-            self.labels: test_codes,
+            self.labels: test_codes[:self.batch_size, :],
             self.noise: np.random.uniform(size=(self.batch_size, self.noise_dim), low=-1.0, high=1.0)
         }
-        G = self.sess.run(self.G_test, feed_dict=feed_dict)
-        
-        N = 5
-        for i in range(N):
-            for j in range(N):
-                idx = i*N + j
-                plt.subplot(N, N, idx+1)
-                plt.imshow(G[idx, :, :, 0], cmap=plt.cm.gray)
-                plt.xticks([])
-                plt.yticks([])
-        plt.subplots_adjust(top=0.92, bottom=0.08, left=0.10, right=0.95, hspace=0.25, wspace=0.35)
-        plt.savefig(os.path.join(self.fig_dir, "fake_{}.png".format(epoch)))
+        G1 = self.sess.run(self.G_test, feed_dict=feed_dict)
+        feed_dict = {
+            self.labels: test_codes[self.batch_size:2*self.batch_size, :],
+            self.noise: np.random.uniform(size=(self.batch_size, self.noise_dim), low=-1.0, high=1.0)
+        }
+        G1 = np.concatenate([G1, self.sess.run(self.G_test, feed_dict=feed_dict)], 0)
+        G1 = np.concatenate([np.concatenate([seq[:,:,0] for seq in G1[10*i:10*(i+1)]], 1) for i in range(10)], 0)
+        plt.imshow(G1, cmap=plt.cm.gray)
+        plt.savefig(os.path.join(self.fig_dir, "fake_{}_1.png".format(epoch)))
         plt.clf()
 
-        if epoch == 0:
-            for i in range(N):
-                for j in range(N):
-                    idx = i*N + j
-                    plt.subplot(N, N, idx+1)
-                    plt.imshow(data["data"][idx, :, :, 0], cmap=plt.cm.gray)
-                    plt.title(convert_label(np.argmax(data["labels"][idx])))
-                    plt.xticks([])
-                    plt.yticks([])
-            plt.subplots_adjust(top=0.92, bottom=0.08, left=0.10, right=0.95, hspace=0.25, wspace=0.35)
-            plt.savefig(os.path.join(self.fig_dir, "real_{}.png".format(epoch)))
-            plt.clf()   
+        test_codes = np.concatenate([labels, np.zeros((100, 1)), np.tile(np.linspace(-1, 1, 10), 10)[:, None]], 1)
+        test_codes = np.concatenate([test_codes, test_codes], 0)
+
+        feed_dict = {
+            self.labels: test_codes[:self.batch_size, :],
+            self.noise: np.random.uniform(size=(self.batch_size, self.noise_dim), low=-1.0, high=1.0)
+        }
+        G2 = self.sess.run(self.G_test, feed_dict=feed_dict)
+        feed_dict = {
+            self.labels: test_codes[self.batch_size:2*self.batch_size, :],
+            self.noise: np.random.uniform(size=(self.batch_size, self.noise_dim), low=-1.0, high=1.0)
+        }
+        G2 = np.concatenate([G2, self.sess.run(self.G_test, feed_dict=feed_dict)], 0)
+        G2 = np.concatenate([np.concatenate([seq[:,:,0] for seq in G2[10*i:10*(i+1)]], 1) for i in range(10)], 0)
+        plt.imshow(G2, cmap=plt.cm.gray)
+        plt.savefig(os.path.join(self.fig_dir, "fake_{}_2.png".format(epoch)))
+        plt.clf()
 
     def train(self, epoches=1):
         self.writer = tf.summary.FileWriter(self.log_dir, self.sess.graph)

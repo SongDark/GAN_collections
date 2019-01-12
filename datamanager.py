@@ -104,7 +104,7 @@ class datamanager_gaussian(object):
         self.mean = mean
         self.std = std 
     
-    def __call__(self, batchsize, height, width, channel):
-        return np.random.normal(self.mean, self.std, size=[batchsize, height, width, channel])
+    def __call__(self, size):
+        return np.random.normal(self.mean, self.std, size=size)
 
 
